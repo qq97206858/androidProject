@@ -1,0 +1,19 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.fqzhang.androidknowledge.ui.fragment.TypeArticleFragment"
+    >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="5dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/home_list_item"
+        android:layoutAnimation="@anim/list_anim_layout"
+        />
+</android.support.v4.widget.SwipeRefreshLayout>
+
