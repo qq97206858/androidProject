@@ -1,0 +1,64 @@
+1、格式：SVG、PNG
+2、命名：flight_order_需求_属性（不支持大写字母，特殊字符等）
+3、压缩
+4、几倍图（2x、3x）1280*720的屏幕密度
+
+https://github.com/GcsSloop/TinyPng
+https://github.com/qiu8310/tinypng#moratinypng
+https://github.com/paper/gulp-tinypng-nokey
+https://tinypng.com/developers
+https://www.jianshu.com/p/2f8fc36cab29
+https://segmentfault.com/q/1010000006478084
+https://blog.csdn.net/u014120638/article/details/53994231 //压缩工具对比  http://johnwong.github.io/showcase/2015/02/19/png-compress.html
+
+DesignOps: Bridging the developer, designer communication gap   设计运维
+
+需求说明：
+	问题描述：开发过程中经常遇到开发和UED经常反复的交涉视觉问题以、图片问题及还原度问题，比如图片压缩、图片格式与尺寸不满足要求等，针对这个问题提出开发图片管理工具，方便UED和开发人员
+	项目目标：实现UED图片自动压缩、版本控制，关联native图片文件夹，开发人员只需在开发需求时拉取代码即能将所需图片拉到本地仓库进行开发（git subModule）
+	
+	
+	web前端功能：①图片查询（全部查看、名字、大小查询）②图片上传（服务校验 图片大小、名字、格式，高级相似图片识别），不符合要求弹框提示、不允许上传③删除上传错误的图片
+	服务端：①图片压缩②图片校验及反馈提示③图片删除、添加gitlib仓库（每次都先拉取远端仓库）
+	
+	
+	后台开发：使用node服务（Express web开发框架）作为图片存储（本地仓库），关联gitLib（远程仓库），处理及响应web端的请求
+	前端开发：使用html css js技术，主要包括图片压缩、命名、图片提交、删除以及展示等
+	项目可能的坑：gitLib仓库版本变化与native代码远程仓库的关联问题（一期可能图片不做版本控制，即gitLib远程仓库不做版本控制，只是与native代码仓库关联）。
+	
+	
+	
+	
+	
+	1、git submodule add git@github.com:jjz/pod-library.git pod-library    建立子module（会生成对应的文件夹和.gitmodules文件）
+		如果删除子module将文件夹以及.gitmodules文件删除即可
+	
+	2、如果本地子module更新了文件 那么父仓库git status时会检测到
+		最好对子module单独的操作，可以避免很多错误
+	git submodule foreach git pull 可以直接父仓库更新子module
+	3、尽量保持版本的一致性：父仓库是7.11那么子也对应7.11
+	4、多使用git status时会检测到
+	5、开发最后不要删除子module中的内容，只是查看内容(可以通过git设置忽略该文件夹)
+	6、有些提示是可以忽略的，不会影响父仓库
+	
+对于图片的压缩，最常见的分有损，无损压缩。无损压缩譬如去除exif信息，重新排列像素存储方式等，有损压缩譬如合并相似像素，减少可见像素点等。
+ImageOptim（无损）, ImageAlpha（有损）,（支持批量，图形化界面，可以设置压缩质量，并且是无损压缩，相对好用）
+ImageOption：它通过优化压缩参数，移除无用的文件元数据和不必要的颜色配置来实现图片的无损压缩。它集成了最好的压缩工具，包括PNGOUT，Zopfli, Pngcrush, AdvPNG，OptiPNG，JpegOptim，JPEGrescan，Jpegtran和Gifsicle
+ImageAlpha是一个Mac OS X下的图形化有损图片压缩工具，内置了pngquant，pngnq-s9，Blurizer和posterizer四种压缩工具。这些工具减少PNG文件大小并保留透明度通道
+pngquant将24位或32位的RGBA PNG图转换成8位PNG图并保留透明度通道，优化后文件相比24/32位通常可以缩小40-70%的体积。
+tinyPng 可以反复压缩，最后会不再改变大小（官网介绍：有损压缩，有选择的减少图片中的颜色，可以几乎与原图无差别并且大大减少图片体积），后台也是结合pngquant+optipng等
+	图片压缩后对视觉影响不大，但体积显著减小
+	可以批量压缩
+	压缩后文件名与原文件名相同，可以直接替换，相当赞啊，尤其是批量压缩的时候
+	可以反复压缩，而不用担心失真
+	简单有效
+
+
+无损压缩 只是对使用某种算法表示重复的数据信息，和我们平时的文件压缩类似，文件可以完全还原不影响文件内容
+有损压缩 合并相似像素，压缩比会改变图片本身，压缩比越高图片资料下降越大
+有损压缩并不一定不能满足要求，控制压缩比，以及最终图片是不是影响效果觉得是否使用有损
+ImageOptim-CLI命令行工具（只支持mac）
+ and JPEGmini均只能在mac上跑
+ 
+ TinyPNG uses smart lossy compression techniques to reduce the file size of your PNG files. By selectively decreasing the number of colors in the image,
+ fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!
