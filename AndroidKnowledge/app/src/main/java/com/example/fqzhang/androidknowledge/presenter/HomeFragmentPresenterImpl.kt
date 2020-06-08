@@ -11,7 +11,7 @@ import com.example.fqzhang.androidknowledge.view.HomeFragmentView
 /**
  * Created by fqzhang on 2018/4/7.
  */
-class HomeFragmentPresenterImpl(private val homeFragmentView: HomeFragmentView) :HomePresenter,HomePresenter.OnHomeListListener,HomePresenter.OnBannerListener{
+class HomeFragmentPresenterImpl(private val homeFragmentView: HomeFragmentView) : HomePresenter, HomePresenter.OnHomeListListener, HomePresenter.OnBannerListener {
     override fun getHomeBanner() {
         homeModel.getHomeBanner(this)
     }
@@ -19,7 +19,7 @@ class HomeFragmentPresenterImpl(private val homeFragmentView: HomeFragmentView) 
     override fun getBannerSuccess(result: BannerResponse) {
         if (result.errorCode != 0) {
             homeFragmentView.getBannerFailed(result.errorMsg)
-        }else {
+        } else {
             result.data ?: let {
 
                 homeFragmentView.getBannerZero()
@@ -37,7 +37,7 @@ class HomeFragmentPresenterImpl(private val homeFragmentView: HomeFragmentView) 
     private val homeModel: HomeModel = HomeModelImpl()
 
     override fun getHomeList(page: Int) {
-        homeModel.getHomeList(this,page)
+        homeModel.getHomeList(this, page)
     }
 
     override fun getHomeListSuccess(result: HomeListResponse) {

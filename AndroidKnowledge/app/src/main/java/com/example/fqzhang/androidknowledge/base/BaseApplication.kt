@@ -11,12 +11,14 @@ import com.squareup.leakcanary.LeakCanary
  */
 class BaseApplication: Application() {
 
+    private val name by Preference("", "")
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             LeakCanary.install(this)
         }
         Preference.setContext(this)
+        Preference
     }
 
     override fun onLowMemory() {
